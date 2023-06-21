@@ -1,0 +1,22 @@
+version: 0.2
+env:
+  variables:
+    KCL_VERSION: "2.5.1"
+phases:
+  install:
+    run-as: root
+    runtime-versions:
+      java: corretto8
+  build:
+    commands:
+      - echo Build started on `date`
+      - mvn clean
+      - mvn install package
+  post_build:
+    commands:
+      - mvn install package -DskipITs=false
+artifacts:
+  files:
+    - amazon-kinesis-client/target/amazon-kinesis-client-$KCL_VERSION-SNAPSHOT.jar
+    - appspec.yml
+  discard-paths: yes
